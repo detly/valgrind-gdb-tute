@@ -6,6 +6,9 @@
 /* 3 is plenty. How far do we expect this thing to travel, anyway? */
 #define DIGITS_LENGTH (3)
 
+/* This allocates memory for the returned string. The caller is responsible for
+ * freeing it.
+ */
 char * full_steam_ahead(unsigned distance)
 {
     static const char LOG_TEXT[] = "miles, still unsinkable!\n";
@@ -41,6 +44,7 @@ int main(int argc, char *argv[])
     {
         char *captains_log = full_steam_ahead(nautical_miles);
         printf("%s", captains_log);
+        free(captains_log);
     }
 
     return 0;
