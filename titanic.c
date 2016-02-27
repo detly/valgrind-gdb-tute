@@ -1,25 +1,26 @@
 /* Copyright WHITE STAR LINE 1911. Internal use only. */
-
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-/* 3 is plenty. How far do we expect this thing to travel, anyway? */
-#define DIGITS_LENGTH (3)
+static const char *LOG_TEXT = "miles, still unsinkable!\n";
 
-/* This allocates memory for the returned string. The caller is responsible for
- * freeing it.
- */
-char * full_steam_ahead(unsigned distance)
+unsigned count_digits(unsigned number)
 {
-    static const char LOG_TEXT[] = "miles, still unsinkable!\n";
-    static const TOTAL_LENGTH    = sizeof(LOG_TEXT) + DIGITS_LENGTH + 1;
+    return   (number == 0)
+           ? 1
+           : (unsigned) floor(log10(number)) + 1;
+}
 
-    const unsigned tugboat_distance = 0; /* TODO: who do we ask about this? */
-    const unsigned total_distance = distance + tugboat_distance;
+unsigned log_buffer_length(unsigned distance)
+{
+    return strlen(LOG_TEXT) + count_digits(distance) + 2;
+}
 
-    char *status = malloc(TOTAL_LENGTH * sizeof(char) * 1);
-    sprintf(status, "%*u %s", DIGITS_LENGTH, total_distance, LOG_TEXT);
-    return status;
+full_steam_ahead(unsigned distance, char * captains_log)
+{
+    sprintf(captains_log, "%u %s", distance, LOG_TEXT);
 }
 
 int main(int argc, char *argv[])
@@ -42,8 +43,14 @@ int main(int argc, char *argv[])
 
     for (nautical_miles = 1; nautical_miles <= to_the_atlantic; nautical_miles++)
     {
-        char *captains_log = full_steam_ahead(nautical_miles);
+        const unsigned current_length = log_buffer_length(nautical_miles);
+
+        char *captains_log = malloc(current_length);
+
+        full_steam_ahead(nautical_miles, captains_log);
+
         printf("%s", captains_log);
+
         free(captains_log);
     }
 
