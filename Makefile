@@ -1,7 +1,7 @@
 #!/usr/bin/make
 
 CC=gcc
-CFLAGS=-O0 -g
+CFLAGS=-O2 -g
 
 titanic: titanic.c
 	$(CC) $(CFLAGS) $< -o $@
