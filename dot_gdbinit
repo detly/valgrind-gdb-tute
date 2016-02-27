@@ -1,0 +1,11 @@
+set print array on
+set print pretty on
+set height 0
+
+define wat
+  eval "monitor get_vbits %p %d", &$arg0, sizeof($arg0)
+end
+
+define lolwat
+  eval "monitor get_vbits %p %d", &$arg0, $arg1
+end
